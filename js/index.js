@@ -1,6 +1,7 @@
-const element = React.createElement('div', {className: 'first'}, 
-  React.createElement('h1', null, 'Hello World!'),
-  React.createElement('p', null, 'Hello World!2')
+const element = (
+  <div>
+    <h1>Hello World!</h1>
+  </div>
 );
 
 ReactDOM.render(element, document.querySelector('#root'));
