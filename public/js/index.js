@@ -18,36 +18,28 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var IssueRow =
-/*#__PURE__*/
-function (_React$Component) {
-  _inherits(IssueRow, _React$Component);
-
-  function IssueRow() {
-    _classCallCheck(this, IssueRow);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(IssueRow).apply(this, arguments));
-  }
-
-  _createClass(IssueRow, [{
-    key: "render",
-    value: function render() {
-      var style = this.props.rowStyle;
-      return React.createElement("tr", null, React.createElement("td", {
-        style: style
-      }, this.props.issue_id), React.createElement("td", {
-        style: style
-      }, this.props.children));
-    }
-  }]);
-
-  return IssueRow;
-}(React.Component);
+var issues = [{
+  id: 1,
+  status: 'New',
+  owner: 'Oleh',
+  effort: 7,
+  created: new Date('2018-08-15'),
+  due: undefined,
+  title: 'Error in console when clicking Add'
+}, {
+  id: 2,
+  status: 'Assigned',
+  owner: 'Eddie',
+  effort: 14,
+  created: new Date('2018-08-16'),
+  due: new Date('2018-08-30'),
+  title: 'Missing bottom border on panel'
+}];
 
 var IssueFilter =
 /*#__PURE__*/
-function (_React$Component2) {
-  _inherits(IssueFilter, _React$Component2);
+function (_React$Component) {
+  _inherits(IssueFilter, _React$Component);
 
   function IssueFilter() {
     _classCallCheck(this, IssueFilter);
@@ -65,6 +57,28 @@ function (_React$Component2) {
   return IssueFilter;
 }(React.Component);
 
+var IssueRow =
+/*#__PURE__*/
+function (_React$Component2) {
+  _inherits(IssueRow, _React$Component2);
+
+  function IssueRow() {
+    _classCallCheck(this, IssueRow);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(IssueRow).apply(this, arguments));
+  }
+
+  _createClass(IssueRow, [{
+    key: "render",
+    value: function render() {
+      var issue = this.props.issue;
+      return React.createElement("tr", null, React.createElement("td", null, issue.id), React.createElement("td", null, issue.status), React.createElement("td", null, issue.owner), React.createElement("td", null, issue.created.toDateString()), React.createElement("td", null, issue.effort), React.createElement("td", null, issue.due ? issue.due.toDateString() : ''), React.createElement("td", null, issue.title));
+    }
+  }]);
+
+  return IssueRow;
+}(React.Component);
+
 var IssueTable =
 /*#__PURE__*/
 function (_React$Component3) {
@@ -79,72 +93,62 @@ function (_React$Component3) {
   _createClass(IssueTable, [{
     key: "render",
     value: function render() {
-      var rowStyle = {
-        border: '1px solid silver',
-        padding: 4
-      };
+      var issueRows = issues.map(function (issue) {
+        return React.createElement(IssueRow, {
+          issue: issue,
+          key: issue.id
+        });
+      });
       return React.createElement("table", {
-        style: {
-          borderCollapse: 'collapse'
-        }
-      }, React.createElement("thead", null, React.createElement("tr", null, React.createElement("th", {
-        style: rowStyle
-      }, "ID"), React.createElement("th", {
-        style: rowStyle
-      }, "Title"))), React.createElement("tbody", null, React.createElement(IssueRow, {
-        rowStyle: rowStyle,
-        issue_id: 1
-      }, "'First issue'"), React.createElement(IssueRow, {
-        rowStyle: rowStyle,
-        issue_id: 2
-      }, "'Second issue'")));
+        className: "bordered-table"
+      }, React.createElement("thead", null, React.createElement("tr", null, React.createElement("th", null, "ID"), React.createElement("th", null, "Status"), React.createElement("th", null, "Owner"), React.createElement("th", null, "Created"), React.createElement("th", null, "Effort"), React.createElement("th", null, "Due Date"), React.createElement("th", null, "Title"))), React.createElement("tbody", null, issueRows));
     }
   }]);
 
   return IssueTable;
 }(React.Component);
 
-var AddIsuue =
+var AddIssue =
 /*#__PURE__*/
 function (_React$Component4) {
-  _inherits(AddIsuue, _React$Component4);
+  _inherits(AddIssue, _React$Component4);
 
-  function AddIsuue() {
-    _classCallCheck(this, AddIsuue);
+  function AddIssue() {
+    _classCallCheck(this, AddIssue);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(AddIsuue).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(AddIssue).apply(this, arguments));
   }
 
-  _createClass(AddIsuue, [{
+  _createClass(AddIssue, [{
     key: "render",
     value: function render() {
       return React.createElement("div", null, "Placeholder for add form");
     }
   }]);
 
-  return AddIsuue;
+  return AddIssue;
 }(React.Component);
 
-var IsuueList =
+var IssueList =
 /*#__PURE__*/
 function (_React$Component5) {
-  _inherits(IsuueList, _React$Component5);
+  _inherits(IssueList, _React$Component5);
 
-  function IsuueList() {
-    _classCallCheck(this, IsuueList);
+  function IssueList() {
+    _classCallCheck(this, IssueList);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(IsuueList).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(IssueList).apply(this, arguments));
   }
 
-  _createClass(IsuueList, [{
+  _createClass(IssueList, [{
     key: "render",
     value: function render() {
-      return React.createElement(React.Fragment, null, React.createElement("h1", null, "Issue Tracker"), React.createElement(IssueFilter, null), React.createElement(IssueTable, null), React.createElement(AddIsuue, null));
+      return React.createElement(React.Fragment, null, React.createElement("h1", null, "Issue Tracker"), React.createElement(IssueFilter, null), React.createElement(IssueTable, null), React.createElement(AddIssue, null));
     }
   }]);
 
-  return IsuueList;
+  return IssueList;
 }(React.Component);
 
-var element = React.createElement(IsuueList, null);
+var element = React.createElement(IssueList, null);
 ReactDOM.render(element, document.querySelector('#root'));
