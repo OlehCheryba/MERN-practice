@@ -1,4 +1,4 @@
-const issues = [
+const initialIssues = [
   {
     id: 1, status: 'New', owner: 'Oleh', effort: 7,
     created: new Date('2018-08-15'), due: undefined,
@@ -10,6 +10,11 @@ const issues = [
     title: 'Missing bottom border on panel',
   }
 ];
+
+const newIssue = {
+  status: 'Old', owner: 'Oleh',
+  title: 'hello new',
+};
 
 class IssueFilter extends React.Component {
   render() {
@@ -35,8 +40,35 @@ class IssueRow extends React.Component {
   }
 }
 class IssueTable extends React.Component {
+  constructor() {
+    super();
+    this.state = {issues: []};
+    setTimeout(() => {
+      this.addIssue(Object.assign({}, newIssue));
+      newIssue.owner = 2
+    }, 2000);
+    setTimeout(() => {
+      this.addIssue(Object.assign({}, newIssue));
+    }, 3000);
+  }
+  addIssue(issue) {
+    issue.id = this.state.issues.length + 1;
+    issue.created = new Date();
+    let newList = this.state.issues.slice();
+    newList.push(issue)
+    this.setState({
+      issues: newList
+    });
+  }
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        issues: initialIssues
+      })
+    }, 1000);
+  }
   render() {
-    const issueRows = issues.map(issue => <IssueRow issue={issue} key={issue.id}/>);
+    const issueRows = this.state.issues.map(issue => <IssueRow issue={issue} key={issue.id}/>);
     return (
       <table className='bordered-table'>
         <thead>

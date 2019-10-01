@@ -18,7 +18,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var issues = [{
+var initialIssues = [{
   id: 1,
   status: 'New',
   owner: 'Oleh',
@@ -35,6 +35,11 @@ var issues = [{
   due: new Date('2018-08-30'),
   title: 'Missing bottom border on panel'
 }];
+var newIssue = {
+  status: 'Old',
+  owner: 'Oleh',
+  title: 'hello new'
+};
 
 var IssueFilter =
 /*#__PURE__*/
@@ -85,15 +90,51 @@ function (_React$Component3) {
   _inherits(IssueTable, _React$Component3);
 
   function IssueTable() {
+    var _this;
+
     _classCallCheck(this, IssueTable);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(IssueTable).apply(this, arguments));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(IssueTable).call(this));
+    _this.state = {
+      issues: []
+    };
+    setTimeout(function () {
+      _this.addIssue(Object.assign({}, newIssue));
+
+      newIssue.owner = 2;
+    }, 2000);
+    setTimeout(function () {
+      _this.addIssue(Object.assign({}, newIssue));
+    }, 3000);
+    return _this;
   }
 
   _createClass(IssueTable, [{
+    key: "addIssue",
+    value: function addIssue(issue) {
+      issue.id = this.state.issues.length + 1;
+      issue.created = new Date();
+      var newList = this.state.issues.slice();
+      newList.push(issue);
+      this.setState({
+        issues: newList
+      });
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      setTimeout(function () {
+        _this2.setState({
+          issues: initialIssues
+        });
+      }, 1000);
+    }
+  }, {
     key: "render",
     value: function render() {
-      var issueRows = issues.map(function (issue) {
+      var issueRows = this.state.issues.map(function (issue) {
         return React.createElement(IssueRow, {
           issue: issue,
           key: issue.id
